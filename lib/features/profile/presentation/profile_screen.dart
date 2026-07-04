@@ -2,7 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:go_router/go_router.dart';
+
 import '../../../core/constants/app_constants.dart';
+import '../../../core/router/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../auth/presentation/auth_providers.dart';
 import 'profile_providers.dart';
@@ -94,6 +97,23 @@ class ProfileScreen extends ConsumerWidget {
                   label: 'LinkedIn',
                   value: profile.linkedInUrl!,
                 ),
+              if (profile.role == UserRole.startup) ...[
+                const SizedBox(height: 8),
+                ListTile(
+                  leading: const Icon(Icons.dashboard_outlined),
+                  title: const Text('Startup dashboard'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => context.push(AppRoutes.startupDashboard),
+                ),
+              ],
+              if (profile.role == UserRole.admin) ...[
+                ListTile(
+                  leading: const Icon(Icons.admin_panel_settings_outlined),
+                  title: const Text('Admin panel'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => context.push(AppRoutes.admin),
+                ),
+              ],
               const SizedBox(height: 24),
               OutlinedButton.icon(
                 onPressed: () => ref.read(authRepositoryProvider)?.signOut(),

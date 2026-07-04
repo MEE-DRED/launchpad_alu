@@ -14,6 +14,13 @@ class StartupRepository {
   CollectionReference<Map<String, dynamic>> get _startups =>
       _firestore.collection(AppConstants.startupsCollection);
 
+  Stream<StartupProfile?> watchStartup(String id) {
+    return _startups.doc(id).snapshots().map((doc) {
+      if (!doc.exists) return null;
+      return StartupProfile.fromFirestore(doc);
+    });
+  }
+
   Stream<StartupProfile?> watchStartupByFounder(String founderId) {
     return _startups
         .where('founderId', isEqualTo: founderId)
@@ -25,6 +32,24 @@ class StartupRepository {
     });
   }
 
+  Stream<List<StartupProfile>> watchUnverifiedStartups() {
+    return _startups
+        .where('verified', isEqualTo: false)
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map(StartupProfile.fromFirestore).toList());
+  }
+
+  Future<StartupProfile?> getStartup(String id) async {
+    try {
+      final doc = await _startups.doc(id).get();
+      if (!doc.exists) return null;
+      return StartupProfile.fromFirestore(doc);
+    } catch (error) {
+      throw FirebaseErrorMapper.map(error);
+    }
+  }
+
   Future<StartupProfile?> getStartupByFounder(String founderId) async {
     try {
       final snapshot = await _startups
@@ -33,6 +58,17 @@ class StartupRepository {
           .get();
       if (snapshot.docs.isEmpty) return null;
       return StartupProfile.fromFirestore(snapshot.docs.first);
+    } catch (error) {
+      throw FirebaseErrorMapper.map(error);
+    }
+  }
+
+  Future<void> verifyStartup(String id) async {
+    try {
+      await _startups.doc(id).set(
+        {'verified': true, 'updatedAt': FieldValue.serverTimestamp()},
+        SetOptions(merge: true),
+      );
     } catch (error) {
       throw FirebaseErrorMapper.map(error);
     }
@@ -68,7 +104,7 @@ class StartupRepository {
           if (website != null) 'website': website.trim(),
           if (contactEmail != null) 'contactEmail': contactEmail.trim(),
           if (contactPhone != null) 'contactPhone': contactPhone.trim(),
-          'verified': false,
+          'verified': existing?.verified ?? false,
           'createdAt': existing == null
               ? FieldValue.serverTimestamp()
               : existing.createdAt != null

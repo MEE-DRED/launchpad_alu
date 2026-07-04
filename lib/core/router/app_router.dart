@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/admin/presentation/admin_screen.dart';
+import '../../features/applications/presentation/application_detail_screen.dart';
+import '../../features/applications/presentation/apply_screen.dart';
 import '../../features/applications/presentation/applications_screen.dart';
 import '../../features/auth/presentation/forgot_password_screen.dart';
 import '../../features/auth/presentation/login_screen.dart';
@@ -9,10 +12,14 @@ import '../../features/auth/presentation/register_screen.dart';
 import '../../features/home/presentation/home_shell.dart';
 import '../../features/notifications/presentation/notifications_screen.dart';
 import '../../features/onboarding/presentation/onboarding_screen.dart';
+import '../../features/opportunities/presentation/create_opportunity_screen.dart';
+import '../../features/opportunities/presentation/opportunity_detail_screen.dart';
 import '../../features/opportunities/presentation/opportunities_screen.dart';
 import '../../features/profile/presentation/profile_providers.dart';
 import '../../features/profile/presentation/profile_screen.dart';
 import '../../features/splash/presentation/splash_screen.dart';
+import '../../features/startup/presentation/startup_dashboard_screen.dart';
+import '../../features/startup/presentation/startup_profile_screen.dart';
 import 'app_routes.dart';
 
 /// Provides the app's [GoRouter], rebuilding redirects when auth/profile change.
@@ -89,8 +96,46 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, _) => const OpportunitiesScreen(),
       ),
       GoRoute(
+        path: AppRoutes.createOpportunity,
+        builder: (_, _) => const CreateOpportunityScreen(),
+      ),
+      GoRoute(
+        path: '/opportunities/:id',
+        builder: (_, state) => OpportunityDetailScreen(
+          opportunityId: state.pathParameters['id']!,
+        ),
+      ),
+      GoRoute(
+        path: '/opportunities/:id/edit',
+        builder: (_, state) => CreateOpportunityScreen(
+          opportunityId: state.pathParameters['id'],
+        ),
+      ),
+      GoRoute(
+        path: '/opportunities/:id/apply',
+        builder: (_, state) => ApplyScreen(
+          opportunityId: state.pathParameters['id']!,
+        ),
+      ),
+      GoRoute(
+        path: '/startups/:id',
+        builder: (_, state) => StartupProfileScreen(
+          startupId: state.pathParameters['id']!,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.startupDashboard,
+        builder: (_, _) => const StartupDashboardScreen(),
+      ),
+      GoRoute(
         path: AppRoutes.applications,
         builder: (_, _) => const ApplicationsScreen(),
+      ),
+      GoRoute(
+        path: '/applications/:id',
+        builder: (_, state) => ApplicationDetailScreen(
+          applicationId: state.pathParameters['id']!,
+        ),
       ),
       GoRoute(
         path: AppRoutes.notifications,
@@ -100,6 +145,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.profile,
         builder: (_, _) => const ProfileScreen(),
       ),
+      GoRoute(
+        path: AppRoutes.admin,
+        builder: (_, _) => const AdminScreen(),
+      ),
     ],
     errorBuilder: (context, state) => Scaffold(
       body: Center(child: Text('Route not found: ${state.uri}')),
@@ -107,7 +156,6 @@ final routerProvider = Provider<GoRouter>((ref) {
   );
 });
 
-/// Bridges Riverpod auth/profile streams to go_router's refresh mechanism.
 class _GoRouterRefreshStream extends ChangeNotifier {
   _GoRouterRefreshStream(Ref ref) {
     ref.listen(authStateProvider, (_, _) => notifyListeners());

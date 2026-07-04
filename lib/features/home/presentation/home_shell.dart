@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../shared/widgets/placeholder_screen.dart';
 import '../../applications/presentation/applications_screen.dart';
 import '../../notifications/presentation/notifications_screen.dart';
 import '../../opportunities/presentation/opportunities_screen.dart';
 import '../../profile/presentation/profile_screen.dart';
+import 'home_feed_screen.dart';
 
-/// The main authenticated shell with bottom navigation.
-///
-/// In Phase 1 this hosts placeholder tabs; each tab will be built out in the
-/// phases that follow.
+/// Main authenticated shell with bottom navigation.
 class HomeShell extends ConsumerStatefulWidget {
   const HomeShell({super.key});
 
@@ -22,7 +19,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
   int _index = 0;
 
   static const _tabs = <Widget>[
-    _HomeTab(),
+    HomeFeedScreen(),
     OpportunitiesScreen(),
     ApplicationsScreen(),
     NotificationsScreen(),
@@ -64,20 +61,6 @@ class _HomeShellState extends ConsumerState<HomeShell> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _HomeTab extends StatelessWidget {
-  const _HomeTab();
-
-  @override
-  Widget build(BuildContext context) {
-    return const PlaceholderScreen(
-      title: 'Home feed',
-      phase: 'Phase 3 — Opportunities & Discovery',
-      icon: Icons.home_rounded,
-      showAppBar: true,
     );
   }
 }

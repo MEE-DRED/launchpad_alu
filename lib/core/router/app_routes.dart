@@ -9,8 +9,16 @@ class AppRoutes {
   static const String onboarding = '/onboarding';
   static const String home = '/home';
   static const String opportunities = '/opportunities';
+  static const String createOpportunity = '/opportunities/create';
   static const String applications = '/applications';
-  static const String startup = '/startup';
+  static const String startupDashboard = '/startup';
   static const String notifications = '/notifications';
   static const String profile = '/profile';
+  static const String admin = '/admin';
+
+  static String opportunityDetail(String id) => '/opportunities/$id';
+  static String editOpportunity(String id) => '/opportunities/$id/edit';
+  static String applyToOpportunity(String id) => '/opportunities/$id/apply';
+  static String startupProfile(String id) => '/startups/$id';
+  static String applicationDetail(String id) => '/applications/$id';
 }
