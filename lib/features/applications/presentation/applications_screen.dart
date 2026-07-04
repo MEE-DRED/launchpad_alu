@@ -41,8 +41,9 @@ class _StudentApplicationsList extends ConsumerWidget {
 
     return applicationsAsync.when(
       loading: () => const AppLoading(label: 'Loading applications...'),
-      error: (_, _) => const AppEmptyState(
+      error: (error, _) => AppEmptyState(
         title: 'Could not load applications',
+        message: error.toString(),
         icon: Icons.error_outline,
       ),
       data: (items) {
@@ -90,8 +91,9 @@ class _StartupApplicationsList extends ConsumerWidget {
 
     return applicationsAsync.when(
       loading: () => const AppLoading(label: 'Loading applicants...'),
-      error: (_, _) => const AppEmptyState(
+      error: (error, _) => AppEmptyState(
         title: 'Could not load applicants',
+        message: error.toString(),
         icon: Icons.error_outline,
       ),
       data: (items) {

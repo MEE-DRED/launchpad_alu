@@ -11,7 +11,7 @@ A Flutter + Firebase mobile app connecting ALU students with student-led startup
 | Frontend | Flutter (Material 3) |
 | Auth | Firebase Authentication (email/password) |
 | Database | Cloud Firestore (real-time) |
-| Storage | Cloud Storage (CVs, logos, resumes) |
+| Storage | Cloudinary (URLs in Firestore) |
 | State | Riverpod |
 | Routing | go_router |
 | Architecture | Feature-first clean architecture |

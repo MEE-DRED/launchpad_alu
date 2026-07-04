@@ -30,8 +30,9 @@ class NotificationsScreen extends ConsumerWidget {
       ),
       body: notificationsAsync.when(
         loading: () => const AppLoading(label: 'Loading notifications...'),
-        error: (_, _) => const AppEmptyState(
+        error: (_, _) => AppEmptyState(
           title: 'Could not load notifications',
+          message: 'Check your connection and try again.',
           icon: Icons.error_outline,
         ),
         data: (items) {
