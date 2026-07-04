@@ -6,8 +6,8 @@
 class CloudinaryConfig {
   const CloudinaryConfig._();
 
-  static const String cloudName = 'YOUR_CLOUD_NAME';
-  static const String uploadPreset = 'YOUR_UPLOAD_PRESET';
+  static const String cloudName = 'x8k2dmzk';
+  static const String uploadPreset = 'launchpad_unsigned';
 
   static bool get isConfigured =>
       cloudName.isNotEmpty &&

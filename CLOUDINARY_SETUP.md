@@ -18,7 +18,7 @@ Sign up at [cloudinary.com](https://cloudinary.com) (free tier is enough for dev
 Edit `lib/core/config/cloudinary_config.dart`:
 
 ```dart
-static const String cloudName = 'your_cloud_name';      // from Cloudinary dashboard
+static const String cloudName = 'x8k2dmzk';      // from Cloudinary dashboard
 static const String uploadPreset = 'launchpad_unsigned'; // your preset name
 ```
 

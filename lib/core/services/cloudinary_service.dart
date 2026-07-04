@@ -43,7 +43,7 @@ class CloudinaryService {
   }) async {
     if (!isConfigured) {
       throw const Failure(
-        'Cloudinary is not configured yet. See CLOUDINARY_SETUP.md.',
+        'Cloudinary is not configured. Set cloudName in lib/core/config/cloudinary_config.dart.',
         code: 'cloudinary',
       );
     }
