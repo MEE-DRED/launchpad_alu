@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/error/failure.dart';
 import '../../../core/providers/repository_providers.dart';
+import '../../../core/services/cloudinary_service.dart';
 import '../../auth/presentation/auth_providers.dart';
 import '../../notifications/data/models/app_notification.dart';
 import '../../profile/presentation/profile_providers.dart';
@@ -26,10 +27,10 @@ class ApplyController extends AsyncNotifier<void> {
     late String? applicationId;
     state = await AsyncValue.guard(() async {
       final appRepo = ref.read(applicationRepositoryProvider);
-      final storage = ref.read(storageServiceProvider);
+      final cloudinary = ref.read(cloudinaryServiceProvider);
       final profile = ref.read(currentUserProfileProvider).value;
       final uid = ref.read(authStateProvider).value?.uid;
-      if (appRepo == null || storage == null || profile == null || uid == null) {
+      if (appRepo == null || profile == null || uid == null) {
         throw Failures.notAuthenticated;
       }
 
@@ -42,14 +43,12 @@ class ApplyController extends AsyncNotifier<void> {
       }
 
       String? resumeUrl = profile.cvUrl;
-      if (resumeFile != null && resumeFile.bytes != null) {
-        resumeUrl = await storage.uploadBytes(
+      if (resumeFile != null && resumeFile.bytes != null && cloudinary != null) {
+        resumeUrl = await cloudinary.uploadBytes(
           bytes: resumeFile.bytes!,
-          path:
-              '${AppConstants.resumeStoragePath}/$uid/${resumeFile.name}',
-          contentType: resumeFile.extension == 'pdf'
-              ? 'application/pdf'
-              : 'application/octet-stream',
+          folder: '${AppConstants.resumeStoragePath}/$uid',
+          fileName: resumeFile.name,
+          resourceType: CloudinaryResourceType.raw,
         );
       }
 

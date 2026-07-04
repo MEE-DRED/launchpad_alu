@@ -16,7 +16,8 @@ If not done already:
 
 1. **Authentication** → Sign-in method → enable **Email/Password**
 2. **Firestore Database** → Create database (test mode is fine for development)
-3. **Storage** → Get started (required for CV, logo, and profile photo uploads)
+
+File uploads use **Cloudinary**, not Firebase Storage — see [`CLOUDINARY_SETUP.md`](../CLOUDINARY_SETUP.md).
 
 ## Reconfigure (optional)
 

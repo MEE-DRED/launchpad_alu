@@ -18,10 +18,16 @@ class NotificationRepository {
   Stream<List<AppNotification>> watchNotifications(String userId) {
     return _notifications
         .where('userId', isEqualTo: userId)
-        .orderBy('createdAt', descending: true)
         .snapshots()
-        .map((snapshot) =>
-            snapshot.docs.map(AppNotification.fromFirestore).toList());
+        .map((snapshot) {
+      final items =
+          snapshot.docs.map(AppNotification.fromFirestore).toList();
+      items.sort(
+        (a, b) => (b.createdAt ?? DateTime(1970))
+            .compareTo(a.createdAt ?? DateTime(1970)),
+      );
+      return items;
+    });
   }
 
   Future<void> createNotification({

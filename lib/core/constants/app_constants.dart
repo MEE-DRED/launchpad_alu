@@ -14,7 +14,7 @@ class AppConstants {
   static const String notificationsCollection = 'notifications';
   static const String messagesCollection = 'messages';
 
-  /// Cloud Storage folders.
+  /// Cloudinary folder names (URLs are stored in Firestore).
   static const String cvStoragePath = 'cvs';
   static const String logoStoragePath = 'logos';
   static const String profileImageStoragePath = 'profile_images';

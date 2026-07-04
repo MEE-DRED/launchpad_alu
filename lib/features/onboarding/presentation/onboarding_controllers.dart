@@ -4,10 +4,11 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../core/constants/app_constants.dart';
 import '../../../core/error/failure.dart';
+import '../../../core/services/cloudinary_service.dart';
 import '../../auth/presentation/auth_providers.dart';
 import '../../profile/presentation/profile_providers.dart';
 
-/// Saves a student onboarding profile to Firestore and Storage.
+/// Saves a student onboarding profile. File URLs live in Firestore via Cloudinary.
 class StudentOnboardingController extends AsyncNotifier<void> {
   @override
   Future<void> build() async {}
@@ -27,30 +28,26 @@ class StudentOnboardingController extends AsyncNotifier<void> {
     state = await AsyncValue.guard(() async {
       final uid = ref.read(authStateProvider).value?.uid;
       final userRepo = ref.read(userRepositoryProvider);
-      final storage = ref.read(storageServiceProvider);
-      if (uid == null || userRepo == null || storage == null) {
+      final cloudinary = ref.read(cloudinaryServiceProvider);
+      if (uid == null || userRepo == null) {
         throw Failures.notAuthenticated;
       }
 
       String? profileImageUrl;
-      if (profileImage != null) {
-        profileImageUrl = await storage.uploadXFile(
+      if (profileImage != null && cloudinary != null) {
+        profileImageUrl = await cloudinary.uploadXFile(
           file: profileImage,
-          path:
-              '${AppConstants.profileImageStoragePath}/$uid/${DateTime.now().millisecondsSinceEpoch}',
-          contentType: 'image/jpeg',
+          folder: '${AppConstants.profileImageStoragePath}/$uid',
         );
       }
 
       String? cvUrl;
-      if (cvFile != null && cvFile.bytes != null) {
-        cvUrl = await storage.uploadBytes(
+      if (cvFile != null && cvFile.bytes != null && cloudinary != null) {
+        cvUrl = await cloudinary.uploadBytes(
           bytes: cvFile.bytes!,
-          path:
-              '${AppConstants.cvStoragePath}/$uid/${cvFile.name}',
-          contentType: cvFile.extension == 'pdf'
-              ? 'application/pdf'
-              : 'application/octet-stream',
+          folder: '${AppConstants.cvStoragePath}/$uid',
+          fileName: cvFile.name,
+          resourceType: CloudinaryResourceType.raw,
         );
       }
 
@@ -75,7 +72,7 @@ final studentOnboardingControllerProvider =
   StudentOnboardingController.new,
 );
 
-/// Saves a startup onboarding profile to Firestore and Storage.
+/// Saves a startup onboarding profile. Logo URL stored in Firestore via Cloudinary.
 class StartupOnboardingController extends AsyncNotifier<void> {
   @override
   Future<void> build() async {}
@@ -96,21 +93,16 @@ class StartupOnboardingController extends AsyncNotifier<void> {
       final uid = ref.read(authStateProvider).value?.uid;
       final userRepo = ref.read(userRepositoryProvider);
       final startupRepo = ref.read(startupRepositoryProvider);
-      final storage = ref.read(storageServiceProvider);
-      if (uid == null ||
-          userRepo == null ||
-          startupRepo == null ||
-          storage == null) {
+      final cloudinary = ref.read(cloudinaryServiceProvider);
+      if (uid == null || userRepo == null || startupRepo == null) {
         throw Failures.notAuthenticated;
       }
 
       String? logoUrl;
-      if (logo != null) {
-        logoUrl = await storage.uploadXFile(
+      if (logo != null && cloudinary != null) {
+        logoUrl = await cloudinary.uploadXFile(
           file: logo,
-          path:
-              '${AppConstants.logoStoragePath}/$uid/${DateTime.now().millisecondsSinceEpoch}',
-          contentType: 'image/jpeg',
+          folder: '${AppConstants.logoStoragePath}/$uid',
         );
       }
 

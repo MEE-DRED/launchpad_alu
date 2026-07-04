@@ -17,19 +17,29 @@ class ApplicationRepository {
   Stream<List<Application>> watchStudentApplications(String studentId) {
     return _applications
         .where('studentId', isEqualTo: studentId)
-        .orderBy('appliedAt', descending: true)
         .snapshots()
-        .map((snapshot) =>
-            snapshot.docs.map(Application.fromFirestore).toList());
+        .map((snapshot) {
+      final items = snapshot.docs.map(Application.fromFirestore).toList();
+      items.sort(
+        (a, b) => (b.appliedAt ?? DateTime(1970))
+            .compareTo(a.appliedAt ?? DateTime(1970)),
+      );
+      return items;
+    });
   }
 
   Stream<List<Application>> watchStartupApplications(String startupId) {
     return _applications
         .where('startupId', isEqualTo: startupId)
-        .orderBy('appliedAt', descending: true)
         .snapshots()
-        .map((snapshot) =>
-            snapshot.docs.map(Application.fromFirestore).toList());
+        .map((snapshot) {
+      final items = snapshot.docs.map(Application.fromFirestore).toList();
+      items.sort(
+        (a, b) => (b.appliedAt ?? DateTime(1970))
+            .compareTo(a.appliedAt ?? DateTime(1970)),
+      );
+      return items;
+    });
   }
 
   Stream<List<Application>> watchOpportunityApplications(
@@ -37,10 +47,15 @@ class ApplicationRepository {
   ) {
     return _applications
         .where('opportunityId', isEqualTo: opportunityId)
-        .orderBy('appliedAt', descending: true)
         .snapshots()
-        .map((snapshot) =>
-            snapshot.docs.map(Application.fromFirestore).toList());
+        .map((snapshot) {
+      final items = snapshot.docs.map(Application.fromFirestore).toList();
+      items.sort(
+        (a, b) => (b.appliedAt ?? DateTime(1970))
+            .compareTo(a.appliedAt ?? DateTime(1970)),
+      );
+      return items;
+    });
   }
 
   Stream<Application?> watchApplication(String id) {

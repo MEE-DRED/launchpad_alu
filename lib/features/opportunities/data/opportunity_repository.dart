@@ -33,19 +33,19 @@ class OpportunityRepository {
   Stream<List<Opportunity>> watchOpportunitiesByStartup(String startupId) {
     return _opportunities
         .where('startupId', isEqualTo: startupId)
-        .orderBy('createdAt', descending: true)
         .snapshots()
-        .map((snapshot) =>
-            snapshot.docs.map(Opportunity.fromFirestore).toList());
+        .map((snapshot) {
+      final items = snapshot.docs.map(Opportunity.fromFirestore).toList();
+      items.sort(
+        (a, b) => (b.createdAt ?? DateTime(1970))
+            .compareTo(a.createdAt ?? DateTime(1970)),
+      );
+      return items;
+    });
   }
 
   Stream<List<Opportunity>> watchStartupOpportunities(String startupId) {
-    return _opportunities
-        .where('startupId', isEqualTo: startupId)
-        .orderBy('createdAt', descending: true)
-        .snapshots()
-        .map((snapshot) =>
-            snapshot.docs.map(Opportunity.fromFirestore).toList());
+    return watchOpportunitiesByStartup(startupId);
   }
 
   Stream<Opportunity?> watchOpportunity(String id) {
