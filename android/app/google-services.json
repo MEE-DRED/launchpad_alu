@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "464927098451",
+    "project_id": "room-12-a26c7",
+    "storage_bucket": "room-12-a26c7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464927098451:android:565afa3304819e6995a8a6",
+        "android_client_info": {
+          "package_name": "com.alu.launchpad_alu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwH5YzfJhbNz0UYd4I6S2fv0Dk_Naxlgs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464927098451:android:8a683af53c8baf7c95a8a6",
+        "android_client_info": {
+          "package_name": "com.example.launchpad_alu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwH5YzfJhbNz0UYd4I6S2fv0Dk_Naxlgs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
