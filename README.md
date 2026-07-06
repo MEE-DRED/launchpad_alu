@@ -23,17 +23,6 @@ flutter pub get
 flutter run
 ```
 
-See [`FIREBASE_SETUP.md`](FIREBASE_SETUP.md) for Firebase console setup and [`firebase/firestore.rules`](firebase/firestore.rules) for security rules.
-
-## Implementation phases
-
-- [x] **Phase 1** — Setup, architecture, theming, routing, Riverpod, Firebase
-- [x] **Phase 2** — Auth & onboarding (register, login, profiles)
-- [x] **Phase 3** — Startups & opportunities (post, browse, search, filter)
-- [x] **Phase 4** — Applications, bookmarks, notifications, real-time
-- [x] **Phase 5** — Admin verification, security rules, polish patterns
-- [ ] **Phase 6** — Demo video, technical report, UI refinement (see [`UI_SCREENSHOTS.md`](UI_SCREENSHOTS.md))
-
 ## Key features
 
 - **Students:** browse/search/filter opportunities, bookmark, apply, track applications, notifications
