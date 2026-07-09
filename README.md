@@ -5,6 +5,7 @@ A Flutter + Firebase mobile app connecting ALU students with student-led startup
 > Not a job board — an ecosystem for startup growth, experiential learning, and community building within the African Leadership University.
 
 Apk link: https://drive.google.com/file/d/1-1LO4tehtOSEa83tuFHiV_OHbzblIDWr/view?usp=sharing
+Video Demo: https://drive.google.com/file/d/1ck6OKH7ey24Pizdgw7VPL-LM3bCCZ4Ri/view?usp=sharing
 
 ## Tech stack
 
